@@ -1,0 +1,68 @@
+function shortestPath = FindShortestPath(...
+    positions, ...
+    cost, ...
+    source_node_id, ...
+    target_node_id)
+% Function: FindShortestPath
+% Description: 运用Dijkstra算法寻找source到destination的最短路径
+% Input: positions: 所有节点的位置
+%        cost: 边的权重矩阵
+%        source_node_id: 源节点id 
+%        target_node_id: 目的节点id 
+% Output: shortestPath: 最短路径编号序列 
+% Author: Zihao Zhou, eezihaozhou@gmail.com
+% Updated at: 2024/4/6
+
+numNodes = size(positions, 1);
+
+distance = inf(1, numNodes);  % 初始化到source的距离
+prevNode = zeros(1, numNodes);  % 初始化前驱节点列表
+visited = false(1, numNodes);  % 初始化访问列表
+
+distance(source_node_id) = 0;  % 初始化源节点到自身的距离为0
+
+for i = 1:numNodes
+    % 从还没有visted过的node中找最小distance
+    u = FindMinDistanceNode(distance, visited);  
+    
+    visited(u) = true;
+    
+    for v = 1:numNodes
+        if ~visited(v) && cost(u, v) > 0 && cost(u, v) ~= inf
+            alt = distance(u) + cost(u, v);
+            if alt < distance(v)
+                distance(v) = alt;
+                prevNode(v) = u;
+            end
+        end
+    end  
+end
+
+% 构建最短路径
+path = [];
+currentNode = target_node_id;
+while currentNode ~= 0
+    path = [currentNode path];
+    currentNode = prevNode(currentNode);
+end
+
+if length(path)==1 
+    shortestPath = [];
+else
+    shortestPath = path;
+end
+
+end
+
+function minNode = FindMinDistanceNode(dist, visited)
+    minDist = inf;
+    minNode = 1;
+    for i = 1:length(dist)
+        if ~visited(i) && dist(i) < minDist
+            minDist = dist(i);
+            minNode = i;
+        end
+    end
+end
+
+

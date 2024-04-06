@@ -1,0 +1,29 @@
+%*********************** configuration ***********************%
+m_uav1 = [0, 0];
+m_uav2 = [0, 10000];
+m_uav3 = [10000, 10000];
+m_uav4 = [10000, 0];
+
+source_set = [m_uav1; m_uav2; m_uav3; m_uav4];
+target = [5000, 5000];
+
+x_min = 0;
+x_max = 10000;
+y_min = 0;
+y_max = 10000;
+
+area = [x_min x_max; y_min y_max];
+
+d_max = 3000;  % maximum communication range
+d_min = 300;  % minimum safe distance
+
+max_iteration = 300;
+num_particles = 30;
+
+lambda = 30;  % penalty_coefficient
+w = 0.7298;  % inertia weight
+c1 = 1.4962;  % cognitive parameter
+c2 = 1.4962;  % social parameter
+
+save('parameter.mat', 'source_set', 'target', 'area', 'd_max', 'd_min', ...
+    'max_iteration', 'num_particles', 'lambda', 'w', 'c1', 'c2');
